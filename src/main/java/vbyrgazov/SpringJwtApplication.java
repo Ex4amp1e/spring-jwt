@@ -25,10 +25,10 @@ public class SpringJwtApplication {
             userService.saveRole(new Role(null, "ROLE_ADMIN"));
             userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
-            userService.saveUser(new User(null, "Vladislav Byrgazov", "ex4ample", "qwert", new ArrayList<>()));
-            userService.saveUser(new User(null, "Anna Byrgazova", "insendio", "qwert", new ArrayList<>()));
-            userService.saveUser(new User(null, "Evgeniy Semenov", "fallen_azgard", "qwert", new ArrayList<>()));
-            userService.saveUser(new User(null, "Natasha Melnik", "profcom", "qwert", new ArrayList<>()));
+            userService.saveUser(new User(null, "Vladislav Byrgazov", "ex4ample", "$2a$10$GXTYPuNxjye02f6joLjUNuyYOS4sYz1YF1Sn61VsJm0yOFdf05gsi", new ArrayList<>()));
+            userService.saveUser(new User(null, "Anna Byrgazova", "insendio", "$2a$10$GXTYPuNxjye02f6joLjUNuyYOS4sYz1YF1Sn61VsJm0yOFdf05gsi", new ArrayList<>()));
+            userService.saveUser(new User(null, "Evgeniy Semenov", "fallen_azgard", "$2a$10$GXTYPuNxjye02f6joLjUNuyYOS4sYz1YF1Sn61VsJm0yOFdf05gsi", new ArrayList<>()));
+            userService.saveUser(new User(null, "Natasha Melnik", "profcom", "$2a$10$GXTYPuNxjye02f6joLjUNuyYOS4sYz1YF1Sn61VsJm0yOFdf05gsi", new ArrayList<>()));
 
             userService.addRoleToUser("ex4ample", "ROLE_USER");
             userService.addRoleToUser("ex4ample", "ROLE_ADMIN");
