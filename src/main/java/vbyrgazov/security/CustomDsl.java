@@ -11,8 +11,10 @@ public class CustomDsl extends AbstractHttpConfigurer<CustomDsl, HttpSecurity> {
     @Override
     public void configure(HttpSecurity http) {
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager);
+        customAuthenticationFilter.setFilterProcessesUrl("/login"); // TODO: move to constants
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilter(new CustomAuthenticationFilter(authenticationManager));
+        http.addFilter(customAuthenticationFilter);
     }
 
     public static CustomDsl customDsl() {

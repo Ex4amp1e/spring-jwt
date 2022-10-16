@@ -3,7 +3,6 @@ package vbyrgazov.security.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.jfr.ContentType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -30,24 +29,9 @@ import java.util.stream.Collectors;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
-//    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
-//        this.authenticationManager = authenticationManager;
-//    }
-
-//    @Value("${vbyrgazov.app.jwt.secret}")
-//    private String jwtSecret;
-//
-//    @Value("${vbyrgazov.app.jwt.expirationMs}")
-//    private int jwtExpirationMs;
-
-//    @PostConstruct
-//    public void init() {
-//        this.jwtSecret = env.getProperty("vbyrgazov.app.jwt.secret");
-//        this.jwtExpirationMs =  env.getProperty("vbyrgazov.app.jwt.expirationMs");
-//    }
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        log.info("attemptAuthentication");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         log.info("User name is: {}", username);
@@ -75,7 +59,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Map<String, String> body = new HashMap<>();
         body.put("access_token", accessToken);
         body.put("refresh_token", refreshToken);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE );
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), body);
     }
 

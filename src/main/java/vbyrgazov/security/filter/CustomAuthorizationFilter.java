@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 @Slf4j
@@ -48,7 +48,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 } catch (Exception exception) {
                     log.error("Error loggin in: {}", exception.getMessage());
                     response.setContentType(TEXT_PLAIN_VALUE);
-                    response.setStatus(FORBIDDEN.value());
+                    response.setStatus(UNAUTHORIZED.value());
                     Map<String, String> body = new HashMap<>();
                     body.put("error_message", exception.getMessage());
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
