@@ -43,16 +43,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         log.info("successfulAuthentication");
+        // TODO: move to JWT Utils
         User user = (User) authResult.getPrincipal();
+        // TODO: Create property/ENV for secret
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
+                // TODO: Create property/ENV for the access_token_expiration
                 .withExpiresAt(new Date(System.currentTimeMillis() + 2 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refreshToken = JWT.create()
                 .withSubject(user.getUsername())
+                // TODO: Create property/ENV for the refresh_token_expiration
                 .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
@@ -65,7 +69,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        // TODO: create unsuccessful auth counter and account disabling for 30 min
+        // TODO: Create unsuccessful auth counter and account disabling for 30 min
         log.warn("unsuccessfulAuthentication " + failed.toString());
         super.unsuccessfulAuthentication(request, response, failed);
     }
