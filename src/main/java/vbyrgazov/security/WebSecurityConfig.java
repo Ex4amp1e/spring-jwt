@@ -3,6 +3,7 @@ package vbyrgazov.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,9 +38,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
-                .authorizeRequests().anyRequest().permitAll();
-        http.authenticationProvider(authenticationProvider());
-        http.apply(customDsl());
+                .authorizeRequests().antMatchers("/login").permitAll().and()
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/**").hasAnyAuthority("ROLE_USER").and()
+                .authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN").and()
+                .authorizeRequests().antMatchers("**").hasAnyAuthority("ROLE_SUPER_ADMIN").and()
+                .authenticationProvider(authenticationProvider())
+                .apply(customDsl());
         return http.build();
     }
 }
