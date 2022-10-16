@@ -38,7 +38,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
-                .authorizeRequests().antMatchers("/login").permitAll().and()
+                .authorizeRequests().antMatchers("/login", "/api/token/refresh").permitAll().and()
                 .authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/**").hasAnyAuthority("ROLE_USER").and()
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN").and()
                 .authorizeRequests().antMatchers("**").hasAnyAuthority("ROLE_SUPER_ADMIN").and()
