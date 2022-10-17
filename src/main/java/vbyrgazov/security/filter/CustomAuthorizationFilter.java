@@ -48,10 +48,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 } catch (Exception exception) {
                     // TODO: Remove sensitive info from response: specify only token expired error, otherwise just UNAUTHORIZED
                     log.error("Error loggin in: {}", exception.getMessage());
-                    response.setContentType(TEXT_PLAIN_VALUE);
-                    response.setStatus(UNAUTHORIZED.value());
                     Map<String, String> body = new HashMap<>();
                     body.put("error_message", exception.getMessage());
+                    response.setStatus(UNAUTHORIZED.value());
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), body);
                 }
